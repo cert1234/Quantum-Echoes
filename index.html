@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Echoes</title>
+<style>
+    /* Body & Background Flicker */
+    body {
+        background-color: #0f111a;
+        color: #e0e0e0;
+        font-family: 'Courier New', monospace;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        animation: bg-flicker 2s infinite;
+        overflow-x: hidden;
+    }
+    @keyframes bg-flicker {
+        0%, 100% { background-color: #0f111a; }
+        25% { background-color: #10121c; }
+        50% { background-color: #0e0f18; }
+        75% { background-color: #10121c; }
+    }
+
+    /* Animated background grid */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: linear-gradient(0deg, rgba(0,255,204,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,255,204,0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: 0;
+        pointer-events: none;
+        animation: gridMove 10s linear infinite;
+    }
+    @keyframes gridMove {
+        0% { background-position: 0 0, 0 0; }
+        100% { background-position: -40px -40px, -40px -40px; }
+    }
+
+    /* Header */
+    header {
+        background-color: #1f2233;
+        padding: 20px;
+        text-align: center;
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #00ffcc;
+        text-shadow: 0 0 5px #00ffcc;
+    }
+
+    /* Main */
+    main {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    h2 { color: #00ffcc; }
+
+    code {
+        background-color: #1f2233;
+        padding: 5px 10px;
+        display: block;
+        white-space: pre-wrap;
+        margin: 10px 0;
+        border-left: 3px solid #00ffcc;
+    }
+	
+	h3 {
+		color: #f000ff;
+		text-shadow: 0 0 5px #f000ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+		animation: glitch 1s infinite;
+	}
+
+	/* Glitch animation for h3 */
+	@keyframes glitch {
+		0% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+		20% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+		40% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+		60% { text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff; }
+		80% { text-shadow: 2px -2px #ff00ff, -2px 2px #00ffff; }
+		100% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+	}
+
+    /* Quantum Message Flicker */
+    code.flicker {
+        animation: flicker-text 1s infinite;
+        position: relative;
+        display: block;
+    }
+    @keyframes flicker-text {
+        0% { opacity: 1; transform: translate(0,0); }
+        5% { opacity: 0.8; transform: translate(-1px, 0); }
+        10% { opacity: 0.9; transform: translate(1px, 0); }
+        15% { opacity: 0.7; transform: translate(0, 1px); }
+        20% { opacity: 1; transform: translate(0, 0); }
+        30% { opacity: 0.85; transform: translate(-1px, -1px); }
+        40% { opacity: 0.95; transform: translate(1px, 1px); }
+        50% { opacity: 0.8; transform: translate(0, -1px); }
+        60% { opacity: 1; transform: translate(0, 0); }
+        70% { opacity: 0.9; transform: translate(-1px, 0); }
+        80% { opacity: 0.85; transform: translate(1px, 1px); }
+        90% { opacity: 1; transform: translate(0, 0); }
+        100% { opacity: 1; transform: translate(0, 0); }
+    }
+
+    /* Blinking Cursor */
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        animation: blink 1s infinite;
+    }
+    @keyframes blink {
+        0%, 50%, 100% { opacity: 1; }
+        25%, 75% { opacity: 0; }
+    }
+
+    /* Data Log */
+    .hint {
+        color: #00ffcc;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #1a1b28;
+        border-left: 3px solid #00ffcc;
+    }
+
+    /* Bold interactive */
+	strong {
+		color: inherit; /* keep original text color */
+		transition: transform 0.3s, text-shadow 0.3s;
+		cursor: pointer;
+		text-shadow: 0 0 4px currentColor;   /* subtle always-on glow */
+	}
+
+	strong:hover {
+		transform: scale(1.1);
+		text-shadow:
+			0 0 6px currentColor,
+			0 0 12px currentColor,
+			0 0 18px currentColor;           /* strong glow on hover */
+	}
+
+    /* Input & Button */
+    input[type=text] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        background-color: #1f2233;
+        color: #e0e0e0;
+        border: 1px solid #00ffcc;
+        font-family: 'Courier New', monospace;
+        font-size: 1em;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #00ffcc;
+        border: none;
+        color: #0f111a;
+        font-weight: bold;
+        cursor: pointer;
+        font-family: 'Courier New', monospace;
+        font-size: 1em;
+    }
+    .message {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 0.9em;
+        color: #555;
+    }
+
+    /* Glitching Year */
+    .year-hover {
+        position: relative;
+        display: inline-block;
+        color: transparent;
+        font-weight: bold;
+    }
+    .year-hover::before {
+        content: "2145";
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #00ffcc;
+        animation: main-year 1s infinite;
+    }
+    .year-hover::after {
+        content: "2025";
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #00ffcc;
+        animation: flicker-year 2s infinite;
+    }
+    @keyframes main-year {
+        0%, 80%, 100% { opacity: 1; }
+        85%, 95% { opacity: 0; }
+    }
+    @keyframes flicker-year {
+        0%, 80%, 100% { opacity: 0; }
+        85%, 95% { opacity: 1; }
+    }
+</style>
+</head>
+<body>
+<header>Quantum Echoes</header>
+<main>
+<p><strong>Year: <span class="year-hover">2145</span>.</strong></p>
+<p>A corrupted AI, <strong>Lumen</strong>, has leaked a fragment of an old quantum experiment from 2025. Recover the <strong>flag</strong> hidden in the message before it disappears into the grid.</p>
+<blockquote>“Not all secrets are where they seem. Sometimes the future is <strong>layered in the past</strong>.”</blockquote>
+
+<h2>Quantum Message</h2>
+<code class="flicker">
+tgjrk#e gjv m@eqnpw$ qv fgg&eqtR u*gxkje?tc owv!pcws t?qh gic?uugo f@gfqep%g pc uk( ukjV.
+fXIjM3VVPHRmM0BfSF8+dDBfPXRlMCltYzMjbFdHJXs0fTtIR2wrNGZnIV9ucj8wd2sqX2NiJjRfbUBlb0wlQ0V7I3dHSCEz<span class="cursor">|</span>
+</code>
+
+<h2>Data Log</h2>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">In the <i>past</i>, every <strong>6th pulse</strong> in the first relay is noise. Remove it to clean the signal.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">The <i>past</i> encoded the first relay  <strong>backward.</strong> Flip the timeline to read it correctly.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;"><i>Past</i> <strong>shifts</strong> distort the first relay. Retreat each symbol  <strong>two steps</strong> into the past.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">The <i>present</i> wrapped the second relay in the <strong>Base.</strong> Decode the stream to reveal.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">The <i>present</i> split the second relay into <strong>paired units</strong>.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">Follow the primary timeline<strong>;take every 1st, 3rd, 5th… pulse </strong>throughout.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">Follow the secondary timeline<strong>;take every 2nd, 4th, 6th… pulse </strong>throughout.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">Both paths run  <strong>backwards</strong> in time. Restore their forward orientation.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">Sync the timelines: <strong>Combine the two streams</strong> one by one to rebuild.</div>
+<div class="hint" style="font-size: 0.9em; line-height: 1.4;">The future <strong>left behind</strong> extra data. Strip every 4th pulse to unlock the flag.</div>
+
+<footer>Good luck, Cyber Archeologist.</footer>
+
+</main>
+</body>
+</html>
